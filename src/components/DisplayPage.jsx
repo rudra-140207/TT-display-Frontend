@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "../styles/DisplayPage.css";
 
 const DisplayPage = () => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { classID } = useParams();
+  
+  // Extract query parameters using useLocation hook
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const classID = searchParams.get('classID');
 
   useEffect(() => {
     const fetchData = async () => {
