@@ -3,14 +3,13 @@ import axios from "axios";
 import "../styles/AdminPage.css";
 
 const AdminPage = () => {
-  const classIDs = ["2-a", "2-b", "3-a", "3-b", "4-a", "4-b", "4-c"];
+  const classIDs = ["2a", "2b", "3a", "3b", "4a", "4b", "4c"];
   const [urls, setUrls] = useState(Array(classIDs.length).fill(""));
   const [updateStatus, setUpdateStatus] = useState(Array(classIDs.length).fill(null));
-  const [loading, setLoading] = useState(false); // State for loader
-
+  const [loading, setLoading] = useState(false); 
   const handleSubmit = async (event, classID, index) => {
     event.preventDefault();
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
       const response = await axios.post(
         `https://kiet-en-tt-backend.onrender.com/admin/update/${classID}`,
@@ -29,7 +28,7 @@ const AdminPage = () => {
       newStatus[index] = "error";
       setUpdateStatus(newStatus);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -38,7 +37,7 @@ const AdminPage = () => {
     newUrls[index] = value;
     setUrls(newUrls);
     const newStatus = [...updateStatus];
-    newStatus[index] = null; // Reset the status when input changes
+    newStatus[index] = null;
     setUpdateStatus(newStatus);
   };
 
