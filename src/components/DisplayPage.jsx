@@ -12,6 +12,7 @@ const DisplayPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`https://kiet-en-tt-backend.onrender.com/display/${classID}`);
+        console.log(response);
         setImage(response.data.url);
       } catch (error) {
         console.log(error);
