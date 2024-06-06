@@ -3,7 +3,7 @@ import axios from "axios";
 import "../styles/AdminPage.css";
 
 const AdminPage = () => {
-  const classIDs = ["2-a", "2-b", "3-a", "3-b", "4-a", "4-b", "4"];
+  const classIDs = ["2-a", "2-b", "3-a", "3-b", "4-a", "4-b", "4-c"];
   const [urls, setUrls] = useState(Array(classIDs.length).fill(""));
   const [updateStatus, setUpdateStatus] = useState(Array(classIDs.length).fill(null));
   const [loading, setLoading] = useState(false); // State for loader
