@@ -10,8 +10,15 @@ const DisplayPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log(classID);
       try {
-        const response = await axios.get(`https://kiet-en-tt-backend.onrender.com/display/${classID}`);
+        const response = await axios.get(`https://kiet-en-tt-backend.onrender.com/display/${classID}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         console.log(response);
         setImage(response.data.url);
       } catch (error) {
