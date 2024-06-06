@@ -11,7 +11,7 @@ const AdminPage = () => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        `https://kiet-en-tt/admin/update/${classID}`,
+        `https://kiet-en-tt-backend.onrender.com/admin/update/${classID}`,
         { url: urls[index] }
       );
       console.log(response.data);
