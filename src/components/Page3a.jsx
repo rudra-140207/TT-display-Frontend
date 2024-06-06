@@ -8,7 +8,7 @@ const DisplayPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://kiet-en-tt-backend.onrender.com/display/3-a`,
+        const response = await axios.get(`https://kiet-en-tt-backend.onrender.com/display/3a`,
           {
             headers: {
               "Content-Type": "application/json",
