@@ -6,9 +6,11 @@ const AdminPage = () => {
   const classIDs = ["2-a", "2-b", "3-a", "3-b", "4-a", "4-b", "4-c"];
   const [urls, setUrls] = useState(Array(classIDs.length).fill(""));
   const [updateStatus, setUpdateStatus] = useState(Array(classIDs.length).fill(null));
+  const [loading, setLoading] = useState(false); // State for loader
 
   const handleSubmit = async (event, classID, index) => {
     event.preventDefault();
+    setLoading(true); // Start loading
     try {
       const response = await axios.post(
         `https://kiet-en-tt-backend.onrender.com/admin/update/${classID}`,
@@ -26,6 +28,8 @@ const AdminPage = () => {
       const newStatus = [...updateStatus];
       newStatus[index] = "error";
       setUpdateStatus(newStatus);
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -52,7 +56,9 @@ const AdminPage = () => {
             value={urls[index]}
             onChange={(e) => handleInputChange(e.target.value, index)}
           />
-          <button type="submit">Update</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Updating..." : "Update"}
+          </button>
           {updateStatus[index] === "success" && (
             <span className="update-success">Updated successfully</span>
           )}
