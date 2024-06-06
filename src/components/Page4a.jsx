@@ -29,7 +29,7 @@ const DisplayPage = () => {
     const intervalId = setInterval(fetchData, 60000);
 
     return () => clearInterval(intervalId);
-  }, [classID]);
+  }, []);
 
   return (
     <div className="full-screen">
