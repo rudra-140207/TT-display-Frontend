@@ -9,6 +9,7 @@ import Page3b from "./components/Page3b";
 import Page4b from "./components/Page4b";
 import Page4c from "./components/Page4c";
 import Home from './components/Home';
+import Upload from './components/upload';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path="/adminPage" element={<AdminPage />} />
+          <Route path="/upload" element={<Upload />} />
           <Route path="/displayPage/2a" element={<Page2a />} />
           <Route path="/displayPage/3a" element={<Page3a />} />
           <Route path="/displayPage/4a" element={<Page4a />} />
