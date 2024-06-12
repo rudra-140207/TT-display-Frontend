@@ -1,41 +1,85 @@
+/* Dual-tone background */
+.admin-page {
+  background: linear-gradient(to right, #f8f9fa, #e9ecef);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Centered heading */
+.heading {
+  font-size: 2.5rem;
+  color: #495057;
+  margin-bottom: 2rem;
+}
+
+/* Form container styling */
 .form-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 20px;
-  }
-  
-  form {
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-  
-  input {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 80%;
+  max-width: 600px;
+  background: #ffffff;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+/* Individual form styling */
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Form label styling */
+.form-label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #343a40;
+}
+
+/* Form input styling */
+.form-input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+/* Form button styling */
+.form-button {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.form-button:not(:disabled):hover {
+  background-color: #0056b3;
+}
+
+/* Success and error message styling */
+.update-success {
+  color: #28a745;
+  margin-top: 0.5rem;
+}
+
+.update-error {
+  color: #dc3545;
+  margin-top: 0.5rem;
+}
