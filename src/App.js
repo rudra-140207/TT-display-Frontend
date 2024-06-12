@@ -9,7 +9,7 @@ import Page3b from "./components/Page3b";
 import Page4b from "./components/Page4b";
 import Page4c from "./components/Page4c";
 import Home from './components/Home';
-import Upload from './components/upload';
+import Upload from './components/Upload';
 
 const App = () => {
   return (

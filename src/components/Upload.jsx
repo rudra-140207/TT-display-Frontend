@@ -37,7 +37,7 @@ function Upload() {
         <input type="file" onChange={handleUpload} className="mb-4" />
         {imageUrl && (
           <div>
-            <img src={imageUrl} alt="Uploaded Image" className="max-w-full mb-4" />
+            <img src={imageUrl} alt="Uploaded" className="max-w-full mb-4" />
             <p className="text-green-500">Image uploaded successfully! URL: {imageUrl}</p>
           </div>
         )}
