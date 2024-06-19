@@ -26,7 +26,7 @@ const DisplayPage = () => {
 
     fetchData();
 
-    const intervalId = setInterval(fetchData, 60000);
+    const intervalId = setInterval(fetchData, 20000);
 
     return () => clearInterval(intervalId);
   }, []);
