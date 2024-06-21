@@ -3,11 +3,24 @@ import axios from "axios";
 import "../styles/AdminPage.css";
 
 const AdminPage = () => {
+  const [password, setPassword] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+
   const classIDs = ["2a", "2b", "3a", "3b", "4a", "4b", "4c"];
   const [urls, setUrls] = useState(Array(classIDs.length).fill(""));
   const [updateStatus, setUpdateStatus] = useState(Array(classIDs.length).fill(null));
   const [loading, setLoading] = useState(Array(classIDs.length).fill(false));
   const [uploadError, setUploadError] = useState(Array(classIDs.length).fill(""));
+
+  const handlePasswordSubmit = (event) => {
+    event.preventDefault();
+    if (password === "rudra07@") {
+      setIsAuthenticated(true);
+    } else {
+      setPasswordError("Incorrect password. Please try again.");
+    }
+  };
 
   const handleSubmit = async (event, classID, index) => {
     event.preventDefault();
@@ -104,6 +117,25 @@ const AdminPage = () => {
       });
     }
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="password-page">
+        <h1 className="heading">Admin Login</h1>
+        <form onSubmit={handlePasswordSubmit} className="password-form">
+          <label className="form-label">Enter Password: </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="form-input"
+          />
+          <button type="submit" className="form-button">Submit</button>
+          {passwordError && <span className="password-error">{passwordError}</span>}
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-page">
