@@ -68,7 +68,7 @@ const AdminPage = () => {
       const file = event.target.files[0];
       const formData = new FormData();
       formData.append('image', file);
-      formData.append('expiration', '600');
+      formData.append('expiration', '86400');
       formData.append('key', 'ff682010d66af471a4cf16d94445257a');
 
       const response = await fetch('https://api.imgbb.com/1/upload', {
