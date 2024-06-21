@@ -5,20 +5,19 @@ import "../styles/DisplayPage.css";
 const DisplayPage = () => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://kiet-en-tt-backend.onrender.com/display/2a`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await axios.get(`https://kiet-en-tt-backend.onrender.com/display/2a`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         console.log(response);
         setImage(response.data.url);
       } catch (error) {
-        console.log(error);
+        console.log("Failed to fetch image, using last available image. Error:", error);
       } finally {
         setLoading(false);
       }
