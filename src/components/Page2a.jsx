@@ -11,7 +11,7 @@ const DisplayPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://kiet-en-tt.onrender.com/display/2a`,
+          `https://kiet-en-tt-backend.onrender.com/display/2a`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -20,12 +20,14 @@ const DisplayPage = () => {
         );
         console.log(response);
         setData(response.data);
+        setLoading(false); // Set loading to false after successful data fetch
       } catch (error) {
-        console.log("Failed to fetch data, using last available data. Error:", error);
-      } finally {
-        setLoading(false);
+        console.log("Failed to fetch data. Error:", error);
+        // Handle error state or retry mechanism if needed
+        setLoading(false); // Ensure loading state is updated even on error
       }
     };
+    
 
     fetchData();
 

@@ -11,7 +11,7 @@ const DisplayPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://kiet-en-tt.onrender.com/display/2b`,
+          `https://kiet-en-tt-backend.onrender.com/display/2b`,
           {
             headers: {
               "Content-Type": "application/json",
