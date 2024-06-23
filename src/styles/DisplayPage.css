@@ -17,13 +17,12 @@
 }
 
 .message-container {
-  position: absolute;
-  width: 80%;
-  height: 80%;
+  width:1200px;
+  height: 700px;
   background: rgba(255, 255, 255, 0.8);
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Align items to the top */
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
   padding: 20px;
@@ -39,5 +38,5 @@
 
 .message-content {
   font-size: 1.5em;
-  margin-top: 20px; /* Add margin to separate content from heading */
+  margin-top: 20px; 
 }

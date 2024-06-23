@@ -5,7 +5,7 @@ import "../styles/DisplayPage.css";
 const DisplayPage = () => {
   const [data, setData] = useState({ url: null, secondUrl: null, message: "" });
   const [loading, setLoading] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentDisplay, setCurrentDisplay] = useState("url");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,10 +18,10 @@ const DisplayPage = () => {
             },
           }
         );
-        console.log(response);
-        setData(response.data);
+        setData(response.data); // Assuming response.data has { url, secondUrl, message }
       } catch (error) {
         console.log("Failed to fetch data, using last available data. Error:", error);
+        // Optionally handle error state or retry logic
       } finally {
         setLoading(false);
       }
@@ -29,94 +29,41 @@ const DisplayPage = () => {
 
     fetchData();
 
-    const intervalId = setInterval(fetchData, 20000);
+    const intervalId = setInterval(fetchData, 20000); // Fetch data every 20 seconds
 
     return () => clearInterval(intervalId);
   }, []);
 
   useEffect(() => {
-    let timer;
-    if (currentIndex === 0) {
-      timer = setInterval(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % 3);
-      }, 10000); // 10 seconds for the main image
-    } else {
-      timer = setInterval(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % 3);
-      }, 5000); // 5 seconds for the second image and message
-    }
+    const timer = setInterval(() => {
+      setCurrentDisplay((prevDisplay) => {
+        if (prevDisplay === "url") return "secondUrl";
+        else if (prevDisplay === "secondUrl") return "message";
+        else return "url";
+      });
+    }, 5000); // Switch display every 5 seconds
 
     return () => clearInterval(timer);
-  }, [currentIndex]);
+  }, []);
 
   if (loading) {
     return <div className="loader">Loading...</div>;
   }
 
-  const displayContent = () => {
-    if (data.url && data.secondUrl && data.message) {
-      // All three fields are present
-      return (
-        <div className="content-container">
-          <img src={data.url} alt="file" className="full-screen-image" />
-          <img src={data.secondUrl} alt="file" className="full-screen-image" />
+  return (
+    <div className="full-screen">
+      <div className="content-container">
+        {currentDisplay === "url" && <img src={data.url} alt="file" className="full-screen-image" />}
+        {currentDisplay === "secondUrl" && <img src={data.secondUrl} alt="file" className="full-screen-image" />}
+        {currentDisplay === "message" && (
           <div className="message-container">
             <div className="message-heading">Message From HOD Office</div>
             <div className="message-content">{data.message}</div>
           </div>
-        </div>
-      );
-    } else if (data.url && data.secondUrl) {
-      // url and secondUrl are present
-      return (
-        <div className="content-container">
-          <img src={data.url} alt="file" className="full-screen-image" />
-          <img src={data.secondUrl} alt="file" className="full-screen-image" />
-        </div>
-      );
-    } else if (data.url && data.message) {
-      // url and message are present
-      return (
-        <div className="content-container">
-          <img src={data.url} alt="file" className="full-screen-image" />
-          <div className="message-container">
-            <div className="message-heading">Message From HOD Office</div>
-            <div className="message-content">{data.message}</div>
-          </div>
-        </div>
-      );
-    } else if (data.secondUrl && data.message) {
-      // secondUrl and message are present
-      return (
-        <div className="content-container">
-          <img src={data.secondUrl} alt="file" className="full-screen-image" />
-          <div className="message-container">
-            <div className="message-heading">Message From HOD Office</div>
-            <div className="message-content">{data.message}</div>
-          </div>
-        </div>
-      );
-    } else if (data.url) {
-      // Only url is present
-      return <img src={data.url} alt="file" className="full-screen-image" />;
-    } else if (data.secondUrl) {
-      // Only secondUrl is present
-      return <img src={data.secondUrl} alt="file" className="full-screen-image" />;
-    } else if (data.message) {
-      // Only message is present
-      return (
-        <div className="message-container">
-          <div className="message-heading">Message From HOD Office</div>
-          <div className="message-content">{data.message}</div>
-        </div>
-      );
-    } else {
-      // Default: show the main image
-      return <img src={data.url} alt="file" className="full-screen-image" />;
-    }
-  };
-
-  return <div className="full-screen">{displayContent()}</div>;
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default DisplayPage;
