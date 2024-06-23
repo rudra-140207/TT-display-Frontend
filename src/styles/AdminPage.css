@@ -1,18 +1,20 @@
 /* Dual-tone background */
-.admin-page {
+.admin-page, .password-page {
   background: linear-gradient(to right, #f8f9fa, #e9ecef);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 1rem;
 }
 
 /* Centered heading */
 .heading {
-  font-size: 2.5rem;
+  font-size: 3rem;
   color: #495057;
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 /* Form container styling */
@@ -21,20 +23,24 @@
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  width: 80%;
-  max-width: 600px;
+  width: 90%;
+  max-width: 700px;
   background: #ffffff;
   padding: 2rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
 }
 
 /* Individual form styling */
-.form {
+.form, .password-form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+}
+
+.password-form {
+  max-width: 400px;
 }
 
 /* Form label styling */
@@ -42,26 +48,41 @@
   margin-bottom: 0.5rem;
   font-weight: bold;
   color: #343a40;
+  font-size: 1rem;
 }
 
 /* Form input styling */
-.form-input {
+.form-input, .file-input {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem;
   margin-bottom: 1rem;
   border: 1px solid #ced4da;
   border-radius: 5px;
+  font-size: 1rem;
+}
+
+.file-input {
+  padding: 0.3rem;
+}
+
+/* Loading message styling */
+.loading-message {
+  font-size: 0.9rem;
+  color: #007bff;
+  margin-bottom: 1rem;
 }
 
 /* Form button styling */
 .form-button {
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.5rem;
   background-color: #007bff;
   color: #ffffff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  align-self: center;
+  font-size: 1rem;
 }
 
 .form-button:disabled {
@@ -74,12 +95,33 @@
 }
 
 /* Success and error message styling */
-.update-success {
-  color: #28a745;
+.update-success, .update-error, .upload-error, .password-error {
+  font-size: 0.9rem;
   margin-top: 0.5rem;
 }
 
-.update-error {
+.update-success {
+  color: #28a745;
+}
+
+.update-error, .upload-error {
   color: #dc3545;
-  margin-top: 0.5rem;
+}
+
+.password-error {
+  color: #dc3545;
+}
+
+@media (max-width: 600px) {
+  .heading {
+    font-size: 2.5rem;
+  }
+
+  .form-container {
+    padding: 1.5rem;
+  }
+
+  .form-button {
+    width: 100%;
+  }
 }

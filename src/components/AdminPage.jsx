@@ -9,9 +9,13 @@ const AdminPage = () => {
 
   const classIDs = ["2a", "2b", "3a", "3b", "4a", "4b", "4c"];
   const [urls, setUrls] = useState(Array(classIDs.length).fill(""));
+  const [secondUrls, setSecondUrls] = useState(Array(classIDs.length).fill(""));
+  const [messages, setMessages] = useState(Array(classIDs.length).fill(""));
   const [updateStatus, setUpdateStatus] = useState(Array(classIDs.length).fill(null));
   const [loading, setLoading] = useState(Array(classIDs.length).fill(false));
   const [uploadError, setUploadError] = useState(Array(classIDs.length).fill(""));
+  const [imageLoading, setImageLoading] = useState(Array(classIDs.length).fill(false));
+  const [selectedClassIndex, setSelectedClassIndex] = useState(0);
 
   const handlePasswordSubmit = (event) => {
     event.preventDefault();
@@ -22,66 +26,101 @@ const AdminPage = () => {
     }
   };
 
-  const handleSubmit = async (event, classID, index) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    const classID = classIDs[selectedClassIndex];
+
     setLoading((prevLoading) => {
       const newLoading = [...prevLoading];
-      newLoading[index] = true;
+      newLoading[selectedClassIndex] = true;
       return newLoading;
     });
 
     try {
       const response = await axios.post(
         `https://kiet-en-tt-backend.onrender.com/admin/update/${classID}`,
-        { url: urls[index] }
+        {
+          url: urls[selectedClassIndex],
+          secondUrl: secondUrls[selectedClassIndex],
+          message: messages[selectedClassIndex],
+        }
       );
       console.log(response.data);
 
       setUrls((prevUrls) => {
         const newUrls = [...prevUrls];
-        newUrls[index] = "";
+        newUrls[selectedClassIndex] = "";
         return newUrls;
+      });
+      setSecondUrls((prevUrls) => {
+        const newUrls = [...prevUrls];
+        newUrls[selectedClassIndex] = "";
+        return newUrls;
+      });
+      setMessages((prevMessages) => {
+        const newMessages = [...prevMessages];
+        newMessages[selectedClassIndex] = "";
+        return newMessages;
       });
       setUpdateStatus((prevStatus) => {
         const newStatus = [...prevStatus];
-        newStatus[index] = "success";
+        newStatus[selectedClassIndex] = "success";
         return newStatus;
       });
     } catch (error) {
       console.log("Error:", error);
       setUpdateStatus((prevStatus) => {
         const newStatus = [...prevStatus];
-        newStatus[index] = "error";
+        newStatus[selectedClassIndex] = "error";
         return newStatus;
       });
     } finally {
       setLoading((prevLoading) => {
         const newLoading = [...prevLoading];
-        newLoading[index] = false;
+        newLoading[selectedClassIndex] = false;
         return newLoading;
       });
     }
   };
 
-  const handleInputChange = (value, index) => {
-    setUrls((prevUrls) => {
-      const newUrls = [...prevUrls];
-      newUrls[index] = value;
-      return newUrls;
-    });
+  const handleInputChange = (value, type) => {
+    if (type === "url") {
+      setUrls((prevUrls) => {
+        const newUrls = [...prevUrls];
+        newUrls[selectedClassIndex] = value;
+        return newUrls;
+      });
+    } else if (type === "secondUrl") {
+      setSecondUrls((prevUrls) => {
+        const newUrls = [...prevUrls];
+        newUrls[selectedClassIndex] = value;
+        return newUrls;
+      });
+    } else if (type === "message") {
+      setMessages((prevMessages) => {
+        const newMessages = [...prevMessages];
+        newMessages[selectedClassIndex] = value;
+        return newMessages;
+      });
+    }
     setUpdateStatus((prevStatus) => {
       const newStatus = [...prevStatus];
-      newStatus[index] = null;
+      newStatus[selectedClassIndex] = null;
       return newStatus;
     });
   };
 
-  const handleUpload = async (event, index) => {
+  const handleUpload = async (event, type) => {
+    setImageLoading((prevLoading) => {
+      const newLoading = [...prevLoading];
+      newLoading[selectedClassIndex] = true;
+      return newLoading;
+    });
+
     try {
       const file = event.target.files[0];
       const formData = new FormData();
       formData.append('image', file);
-      formData.append('expiration', '86400');
       formData.append('key', 'ff682010d66af471a4cf16d94445257a');
 
       const response = await fetch('https://api.imgbb.com/1/upload', {
@@ -91,20 +130,28 @@ const AdminPage = () => {
       const data = await response.json();
 
       if (data.success) {
-        setUrls((prevUrls) => {
-          const newUrls = [...prevUrls];
-          newUrls[index] = data.data.url;
-          return newUrls;
-        });
+        if (type === "url") {
+          setUrls((prevUrls) => {
+            const newUrls = [...prevUrls];
+            newUrls[selectedClassIndex] = data.data.url;
+            return newUrls;
+          });
+        } else if (type === "secondUrl") {
+          setSecondUrls((prevUrls) => {
+            const newUrls = [...prevUrls];
+            newUrls[selectedClassIndex] = data.data.url;
+            return newUrls;
+          });
+        }
         setUploadError((prevErrors) => {
           const newErrors = [...prevErrors];
-          newErrors[index] = "";
+          newErrors[selectedClassIndex] = "";
           return newErrors;
         });
       } else {
         setUploadError((prevErrors) => {
           const newErrors = [...prevErrors];
-          newErrors[index] = "Error uploading image. Please try again.";
+          newErrors[selectedClassIndex] = "Error uploading image. Please try again.";
           return newErrors;
         });
       }
@@ -112,8 +159,14 @@ const AdminPage = () => {
       console.error('Error:', error);
       setUploadError((prevErrors) => {
         const newErrors = [...prevErrors];
-        newErrors[index] = "Error uploading image. Please try again.";
+        newErrors[selectedClassIndex] = "Error uploading image. Please try again.";
         return newErrors;
+      });
+    } finally {
+      setImageLoading((prevLoading) => {
+        const newLoading = [...prevLoading];
+        newLoading[selectedClassIndex] = false;
+        return newLoading;
       });
     }
   };
@@ -140,40 +193,73 @@ const AdminPage = () => {
   return (
     <div className="admin-page">
       <h1 className="heading">Digital Timetable</h1>
-      <div className="form-container">
+      <div className="menu">
         {classIDs.map((classID, index) => (
-          <form
+          <button
             key={classID}
-            method="POST"
-            onSubmit={(e) => handleSubmit(e, classID, index)}
-            className="form"
+            className={`menu-button ${index === selectedClassIndex ? 'active' : ''}`}
+            onClick={() => setSelectedClassIndex(index)}
           >
-            <label className="form-label">Enter your URL for {classID}: </label>
-            <input
-              type="text"
-              value={urls[index]}
-              onChange={(e) => handleInputChange(e.target.value, index)}
-              className="form-input"
-            />
-            <input 
-              type="file" 
-              onChange={(e) => handleUpload(e, index)} 
-              className="file-input" 
-            />
-            <button type="submit" disabled={loading[index]} className="form-button">
-              {loading[index] ? "Updating..." : "Update"}
-            </button>
-            {updateStatus[index] === "success" && (
-              <span className="update-success">Updated successfully</span>
-            )}
-            {updateStatus[index] === "error" && (
-              <span className="update-error">Update failed</span>
-            )}
-            {uploadError[index] && (
-              <span className="upload-error">{uploadError[index]}</span>
-            )}
-          </form>
+            Class {classID}
+          </button>
         ))}
+      </div>
+      <div className="form-container">
+        <form
+          key={classIDs[selectedClassIndex]}
+          method="POST"
+          onSubmit={handleSubmit}
+          className="form"
+        >
+          <label className="form-label">Upload Time-Table for Class {classIDs[selectedClassIndex]}: </label>
+          <input
+            type="text"
+            value={urls[selectedClassIndex]}
+            onChange={(e) => handleInputChange(e.target.value, "url")}
+            className="form-input"
+            disabled={imageLoading[selectedClassIndex]}
+          />
+          <input 
+            type="file" 
+            onChange={(e) => handleUpload(e, "url")} 
+            className="file-input" 
+            disabled={imageLoading[selectedClassIndex]}
+          />
+          <label className="form-label">Upload Image for Class {classIDs[selectedClassIndex]} (optional): </label>
+          <input
+            type="text"
+            value={secondUrls[selectedClassIndex]}
+            onChange={(e) => handleInputChange(e.target.value, "secondUrl")}
+            className="form-input"
+            disabled={imageLoading[selectedClassIndex]}
+          />
+          <input 
+            type="file" 
+            onChange={(e) => handleUpload(e, "secondUrl")} 
+            className="file-input" 
+            disabled={imageLoading[selectedClassIndex]}
+          />
+          <label className="form-label">Enter a message for Class {classIDs[selectedClassIndex]} (optional): </label>
+          <textarea
+            value={messages[selectedClassIndex]}
+            onChange={(e) => handleInputChange(e.target.value, "message")}
+            className="form-textarea"
+            disabled={imageLoading[selectedClassIndex]}
+          />
+          {imageLoading[selectedClassIndex] && <span className="loading-message">Uploading image...</span>}
+          <button type="submit" disabled={loading[selectedClassIndex] || imageLoading[selectedClassIndex]} className="form-button">
+            {loading[selectedClassIndex] ? "Updating..." : "Update"}
+          </button>
+          {updateStatus[selectedClassIndex] === "success" && (
+            <span className="update-success">Updated successfully</span>
+          )}
+          {updateStatus[selectedClassIndex] === "error" && (
+            <span className="update-error">Update failed</span>
+          )}
+          {uploadError[selectedClassIndex] && (
+            <span className="upload-error">{uploadError[selectedClassIndex]}</span>
+          )}
+        </form>
       </div>
     </div>
   );
