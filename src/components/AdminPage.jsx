@@ -19,7 +19,9 @@ const AdminPage = () => {
 
   const handlePasswordSubmit = (event) => {
     event.preventDefault();
-    if (password === "rudra07@") {
+    console.log(password);
+    console.log(process.env.REACT_APP_PASSWORD);
+    if (password === process.env.REACT_APP_PASSWORD) {
       setIsAuthenticated(true);
     } else {
       setPasswordError("Incorrect password. Please try again.");
@@ -121,7 +123,7 @@ const AdminPage = () => {
       const file = event.target.files[0];
       const formData = new FormData();
       formData.append('image', file);
-      formData.append('key', 'ff682010d66af471a4cf16d94445257a');
+      formData.append('key', process.env.REACT_APP_API_KEY);
 
       const response = await fetch('https://api.imgbb.com/1/upload', {
         method: 'POST',
