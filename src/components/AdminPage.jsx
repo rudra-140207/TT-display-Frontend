@@ -20,7 +20,7 @@ const AdminPage = () => {
   const handlePasswordSubmit = (event) => {
     event.preventDefault();
     console.log(password);
-    console.log(process.env.REACT_APP_PASSWORD);
+    // console.log(process.env.REACT_APP_PASSWORD);
     if (password === process.env.REACT_APP_PASSWORD) {
       setIsAuthenticated(true);
     } else {
