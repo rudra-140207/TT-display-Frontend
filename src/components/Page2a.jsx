@@ -12,16 +12,17 @@ const DisplayPage = () => {
       try {
         const response = await axios.get(
           `https://kiet-en-tt-backend.onrender.com/display/2a`,
+          // `http://localhost:5000/display/2a`,
           {
             headers: {
               "Content-Type": "application/json",
             },
           }
         );
-        setData(response.data); // Assuming response.data has { url, secondUrl, message }
+        setData(response.data);
       } catch (error) {
         console.log("Failed to fetch data, using last available data. Error:", error);
-        // Optionally handle error state or retry logic
+        
       } finally {
         setLoading(false);
       }
@@ -29,7 +30,7 @@ const DisplayPage = () => {
 
     fetchData();
 
-    const intervalId = setInterval(fetchData, 20000); // Fetch data every 20 seconds
+    const intervalId = setInterval(fetchData, 15000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -41,7 +42,7 @@ const DisplayPage = () => {
         else if (prevDisplay === "secondUrl") return "message";
         else return "url";
       });
-    }, 5000); // Switch display every 5 seconds
+    }, 8000);
 
     return () => clearInterval(timer);
   }, []);
