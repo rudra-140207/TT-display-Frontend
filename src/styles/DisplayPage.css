@@ -41,6 +41,13 @@
   margin-top: 20px; 
 }
 
+@media (max-width: 1505px) {
+  .message-container {
+    width: 700px;
+    height: 500px;
+  }
+}
+
 @media (max-width: 1025px) {
   .message-container {
     width: 700px;
