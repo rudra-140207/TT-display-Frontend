@@ -43,15 +43,15 @@
 
 @media (max-width: 1505px) {
   .message-container {
-    width: 700px;
-    height: 500px;
+    width: 800px;
+    height: 700px;
   }
 }
 
 @media (max-width: 1025px) {
   .message-container {
-    width: 700px;
-    height: 500px;
+    width: 800px;
+    height: 700px;
   }
 }
 
